@@ -293,7 +293,7 @@ public class Calculator extends Application{
 		        		actiontarget.setText(prevResult + "");
 		        	break;
 		        	case "/":
-		        		if(operand == "0") {
+		        		if(operand.equals("0")) {
 		        			actiontarget.setText("can't divide by 0");
 		        		}
 		        		else {
