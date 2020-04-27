@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -23,31 +24,34 @@ public class Calculator extends Application{
 	public void start(Stage stage) throws Exception{
 		stage.setTitle("Calculator");
 		GridPane grid = new GridPane();
+	    grid.getColumnConstraints().add(new ColumnConstraints(100)); 
+	    grid.getColumnConstraints().add(new ColumnConstraints(100)); 
+	    grid.getColumnConstraints().add(new ColumnConstraints(100)); 
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 		
 		Label title = new Label("1st operand\n(or log base)");
-		grid.add(title, 1, 0);
+		grid.add(title, 0, 0);
 		
-		Label title2 = new Label("operator");
-		grid.add(title2, 2, 0);
+		Label title2 = new Label("operator\n(*,/,+,-,^,log)");
+		grid.add(title2, 1, 0);
 		
-		Label title3 = new Label("2nd operand\n(or log arg)");
-		grid.add(title3, 3, 0);
+		Label title3 = new Label("2nd operand\n(or log argument)");
+		grid.add(title3, 2, 0);
 		
 		TextField firstOperand = new TextField();
-		grid.add(firstOperand, 1, 1);
+		grid.add(firstOperand, 0, 1);
 		
 		TextField operation = new TextField();
-		grid.add(operation, 2, 1);
+		grid.add(operation, 1, 1);
 		
 		TextField secondOperand = new TextField();
-		grid.add(secondOperand, 3, 1);
+		grid.add(secondOperand, 2, 1);
 		
 		final Text actiontarget = new Text();
-        grid.add(actiontarget, 1, 6);
+        grid.add(actiontarget, 0, 6);
         
         
 		Button enterBtn = new Button("Calculate");
@@ -59,8 +63,15 @@ public class Calculator extends Application{
 		        ScriptEngine engine = mgr.getEngineByName("JavaScript");
 		        actiontarget.setText(secondOperand.getText() + " " + firstOperand.getText());
 		        
-		        double firstNum = Double.valueOf(firstOperand.getText());
-		        double secondNum = Double.valueOf(secondOperand.getText());
+		        double firstNum, secondNum;
+		        try {
+		        	firstNum = Double.valueOf(firstOperand.getText());
+		        	secondNum = Double.valueOf(secondOperand.getText());
+		        }
+		        catch(NumberFormatException exception) {
+		        	actiontarget.setText("Operands must be numbers");
+		        	return;
+		        }
 		        
 		        switch(operation.getText()) {
 		        	case "+":
@@ -85,7 +96,13 @@ public class Calculator extends Application{
 		        		actiontarget.setText(Math.pow(firstNum, secondNum) + "");
 		        	break;
 		        	case "log":
-		        		actiontarget.setText(Math.log10(firstNum)/Math.log10(secondNum) +"");
+		        		if(firstNum <= 1) {
+		        			actiontarget.setText("Bad log base value");
+		        		}
+		        		else
+		        		{
+		        			actiontarget.setText(Math.log10(firstNum)/Math.log10(secondNum) +"");
+		        		}
 		        	break;
 		        	default:
 		        		actiontarget.setText("Operation must be: +,/,-,*,^,or log");
@@ -94,9 +111,9 @@ public class Calculator extends Application{
 		        }
 		    }
 		});
-		grid.add(enterBtn, 1, 2);
+		grid.add(enterBtn, 0, 2);
 		
-		Scene scene = new Scene(grid, 300, 275);
+		Scene scene = new Scene(grid, 400, 350);
 		stage.setScene(scene);
 		stage.show();
 	}
