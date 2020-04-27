@@ -34,12 +34,12 @@ public class Calculator extends Application{
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-		grid.getColumnConstraints().add(new ColumnConstraints(40)); 
-		grid.getColumnConstraints().add(new ColumnConstraints(40)); 
-		grid.getColumnConstraints().add(new ColumnConstraints(40)); 
-		grid.getColumnConstraints().add(new ColumnConstraints(40)); 
-		grid.getColumnConstraints().add(new ColumnConstraints(40)); 
-		grid.getColumnConstraints().add(new ColumnConstraints(40)); 
+		grid.getColumnConstraints().add(new ColumnConstraints(55)); 
+		grid.getColumnConstraints().add(new ColumnConstraints(55)); 
+		grid.getColumnConstraints().add(new ColumnConstraints(55)); 
+		grid.getColumnConstraints().add(new ColumnConstraints(55)); 
+		grid.getColumnConstraints().add(new ColumnConstraints(55)); 
+		grid.getColumnConstraints().add(new ColumnConstraints(55)); 
 		
 		
 		
@@ -320,6 +320,20 @@ public class Calculator extends Application{
 		    }
 		});
 		grid.add(enterBtn, 4, 0);
+		
+		Button clearButton = new Button("clear");
+		clearButton.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {		        
+		    	operand = "0";
+		    	prevResult = 0.0;
+		    	resultFound = false;
+		    	actiontarget.setText("");
+		        
+		    }
+		});
+		grid.add(clearButton, 0, 4);
 		
 		Scene scene = new Scene(grid, 400, 350);
 		stage.setScene(scene);
