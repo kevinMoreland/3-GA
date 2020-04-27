@@ -19,99 +19,307 @@ public class Calculator extends Application{
 	public static void main(String[] args) {
 		launch(args);
 	}
+	String operation = "";
+	String operand = "0";
+	Double prevResult = 0.0;
+	boolean resultFound = false;
 	
 	@Override
 	public void start(Stage stage) throws Exception{
 		stage.setTitle("Calculator");
 		GridPane grid = new GridPane();
-	    grid.getColumnConstraints().add(new ColumnConstraints(100)); 
-	    grid.getColumnConstraints().add(new ColumnConstraints(100)); 
-	    grid.getColumnConstraints().add(new ColumnConstraints(100)); 
+		final Text actiontarget = new Text();
+		
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
+		grid.getColumnConstraints().add(new ColumnConstraints(40)); 
+		grid.getColumnConstraints().add(new ColumnConstraints(40)); 
+		grid.getColumnConstraints().add(new ColumnConstraints(40)); 
+		grid.getColumnConstraints().add(new ColumnConstraints(40)); 
+		grid.getColumnConstraints().add(new ColumnConstraints(40)); 
+		grid.getColumnConstraints().add(new ColumnConstraints(40)); 
 		
-		Label title = new Label("1st operand\n(or log base)");
-		grid.add(title, 0, 0);
 		
-		Label title2 = new Label("operator\n(*,/,+,-,^,log)");
-		grid.add(title2, 1, 0);
 		
-		Label title3 = new Label("2nd operand\n(or log argument)");
-		grid.add(title3, 2, 0);
 		
-		TextField firstOperand = new TextField();
-		grid.add(firstOperand, 0, 1);
+		Button addButton = new Button("+");
+		addButton.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {	
+		    	operation = "+";
+	        	actiontarget.setText(actiontarget.getText() + operation);
+	        	if(!resultFound) {
+	        		prevResult = Double.valueOf(operand);
+	        		operand = "0";
+	        	}
+		    }
+		});
+		grid.add(addButton, 0, 0);
 		
-		TextField operation = new TextField();
-		grid.add(operation, 1, 1);
+		Button subButton = new Button("-");
+		subButton.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {		        
+		    	operation = "-";
+	        	actiontarget.setText(actiontarget.getText() + operation);
+	        	if(!resultFound) {
+	        		prevResult = Double.valueOf(operand);
+	        		operand = "0";
+	        	}
+		    }
+		});
+		grid.add(subButton, 1, 0);
 		
-		TextField secondOperand = new TextField();
-		grid.add(secondOperand, 2, 1);
+		Button multButton = new Button("*");
+		multButton.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {		        
+		    	operation = "*";
+	        	actiontarget.setText(actiontarget.getText() + operation);
+	        	if(!resultFound) {
+	        		prevResult = Double.valueOf(operand);
+	        		operand = "0";
+	        	}
+		    }
+		});
+		grid.add(multButton, 2, 0);
 		
-		final Text actiontarget = new Text();
+		Button divideButton = new Button("/");
+		divideButton.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {		        
+		    	operation = "/";
+	        	actiontarget.setText(actiontarget.getText() + operation);
+	        	if(!resultFound) {
+	        		prevResult = Double.valueOf(operand);
+	        		operand = "0";
+	        	}
+		    }
+		});
+		grid.add(divideButton, 3, 0);
+		
+		Button powerButton = new Button("^");
+		powerButton.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {		        
+		        
+		    	operation = "^";
+	        	actiontarget.setText(actiontarget.getText() + operation);
+	        	if(!resultFound) {
+	        		prevResult = Double.valueOf(operand);
+	        		operand = "0";
+	        	}
+		    }
+		});
+		grid.add(powerButton, 4, 0);
+		
+		Button logButton = new Button("log");
+		logButton.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {	
+		    	double valueUsed;
+		    	if(resultFound) {
+		    		valueUsed = prevResult;
+			    	
+		    	}
+		    	else {
+		    		valueUsed = Double.valueOf(operand);
+		    	}
+		    	if(valueUsed < 0) {
+		    		actiontarget.setText("Bad log argument");
+		    	}
+		    	else
+		    	{
+		    		prevResult = Math.log10(valueUsed);
+		        	actiontarget.setText(prevResult + " ");
+		    	}
+		    	operand = "0";
+		    	resultFound = true;
+		    }
+		});
+		grid.add(logButton, 5, 0);
+		
+		Button num0 = new Button("0");
+		num0.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {	
+		    	operand += "0";
+		    	actiontarget.setText(actiontarget.getText() + "0");
+		        
+		    }
+		});
+		grid.add(num0, 0, 1);
+		
+		Button num1 = new Button("1");
+		num1.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {		        
+		    	operand += "1";
+		    	actiontarget.setText(actiontarget.getText() + "1");
+		        
+		    }
+		});
+		grid.add(num1, 1, 1);
+		
+		Button num2 = new Button("2");
+		num2.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {		        
+		        
+		    	operand += "2";
+		    	actiontarget.setText(actiontarget.getText() + "2");
+		    }
+		});
+		grid.add(num2, 2, 1);
+		
+		Button num3 = new Button("3");
+		num3.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {		        
+		        
+		    	operand += "3";
+		    	actiontarget.setText(actiontarget.getText() + "3");
+		    }
+		});
+		grid.add(num3, 3, 1);
+		
+		Button num4 = new Button("4");
+		num4.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {		        
+		        
+		    	operand += "4";
+		    	actiontarget.setText(actiontarget.getText() + "4");
+		    }
+		});
+		grid.add(num4, 4, 1);
+		
+		Button num5 = new Button("5");
+		num5.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {		        
+		    	operand += "5";
+		    	actiontarget.setText(actiontarget.getText() + "5");
+		        
+		    }
+		});
+		grid.add(num5, 5, 1);
+		
+		Button num6 = new Button("6");
+		num6.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {		        
+		        
+		    	operand += "6";
+		    	actiontarget.setText(actiontarget.getText() + "6");
+		    }
+		});
+		grid.add(num6, 0, 2);
+		
+		Button num7 = new Button("7");
+		num7.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {		        
+		        
+		    	operand += "7";
+		    	actiontarget.setText(actiontarget.getText() + "7");
+		    }
+		});
+		grid.add(num7, 1, 2);
+		
+		Button num8 = new Button("8");
+		num8.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {		        
+		        
+		    	operand += "8";
+		    	actiontarget.setText(actiontarget.getText() + "8");
+		    }
+		});
+		grid.add(num8, 2, 2);
+		
+		Button num9 = new Button("9");
+		num9.setOnAction(new EventHandler<ActionEvent>() {
+			 
+		    @Override
+		    public void handle(ActionEvent e) {		        
+		    	operand += "9";
+		    	actiontarget.setText(actiontarget.getText() + "9");
+		        
+		    }
+		});
+		grid.add(num9, 3, 2);
+		
+		
+		
         grid.add(actiontarget, 0, 6);
         
         
-		Button enterBtn = new Button("Calculate");
+		Button enterBtn = new Button("=");
 		enterBtn.setOnAction(new EventHandler<ActionEvent>() {
 			 
 		    @Override
 		    public void handle(ActionEvent e) {		        
 		        ScriptEngineManager mgr = new ScriptEngineManager();
 		        ScriptEngine engine = mgr.getEngineByName("JavaScript");
-		        actiontarget.setText(secondOperand.getText() + " " + firstOperand.getText());
 		        
-		        double firstNum, secondNum;
-		        try {
-		        	firstNum = Double.valueOf(firstOperand.getText());
-		        	secondNum = Double.valueOf(secondOperand.getText());
-		        }
-		        catch(NumberFormatException exception) {
-		        	actiontarget.setText("Operands must be numbers");
-		        	return;
-		        }
+		        double operandValue = Double.valueOf(operand);
+		        System.out.println("op value: " + operandValue);
 		        
-		        switch(operation.getText()) {
+		        switch(operation) {
 		        	case "+":
-		        		actiontarget.setText(firstNum + secondNum + "");
+		        		prevResult = prevResult + operandValue;
+		        		actiontarget.setText(prevResult + "");
 		        	break;
 		        	case "-":
-		        		actiontarget.setText(firstNum - secondNum + "");
+		        		prevResult = prevResult - operandValue;
+		        		actiontarget.setText(prevResult + "");
 		        	break;
 		        	case "/":
-		        		if(secondNum == 0) {
+		        		if(operand == "0") {
 		        			actiontarget.setText("can't divide by 0");
 		        		}
 		        		else {
-		        			actiontarget.setText(firstNum / secondNum + "");
+		        			prevResult = prevResult / operandValue;
+			        		actiontarget.setText(prevResult + "");
 		        		}
 		        		
 		        	break;
 		        	case "*":
-		        		actiontarget.setText(firstNum * secondNum + "");
+		        		prevResult = prevResult * operandValue;
+		        		actiontarget.setText(prevResult + "");
 		        	break;
 		        	case "^":
-		        		actiontarget.setText(Math.pow(firstNum, secondNum) + "");
-		        	break;
-		        	case "log":
-		        		if(firstNum <= 1) {
-		        			actiontarget.setText("Bad log base value");
-		        		}
-		        		else
-		        		{
-		        			actiontarget.setText(Math.log10(firstNum)/Math.log10(secondNum) +"");
-		        		}
+		        		prevResult = Math.pow(prevResult, operandValue);
+		        		actiontarget.setText(prevResult + "");
 		        	break;
 		        	default:
 		        		actiontarget.setText("Operation must be: +,/,-,*,^,or log");
 		        	break;
 		     
 		        }
+		        operand = "0";
+		        resultFound = true;
 		    }
 		});
-		grid.add(enterBtn, 0, 2);
+		grid.add(enterBtn, 4, 0);
 		
 		Scene scene = new Scene(grid, 400, 350);
 		stage.setScene(scene);
